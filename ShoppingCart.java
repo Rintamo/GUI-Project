@@ -1,23 +1,26 @@
 import java.util.Scanner;
 
+/**
+ * Shopping Cart Application.
+ */
 public class ShoppingCart implements AutoCloseable {
     private ProductList inventory;
     private ProductList cart;
     private Scanner scanner;
 
+    /**
+     * Constructor
+     */
     public ShoppingCart() {
         inventory = CreateInventory();
         cart = new ProductList();
         scanner = new Scanner(System.in);
     }
 
-    public static void main(String[] args) {
-        System.out.println("Welcome to the Shopping Cart Simulator");
-        try (ShoppingCart shoppingCart = new ShoppingCart()) {
-            while (shoppingCart.ViewOptions());
-        }
-    }
-
+    /**
+     * Generates the contents of the Inventory.
+     * @return A ProductList containing the Inventory.
+     */
     public static ProductList CreateInventory() {
         ProductList productList = new ProductList();
 
@@ -30,6 +33,10 @@ public class ShoppingCart implements AutoCloseable {
         return productList;
     }
 
+    /**
+     * Lists the options for the User to do and maintains the App loop.
+     * @return A loop control boolean.
+     */
     public boolean ViewOptions() {
         System.out.println("\nAvaliable Options:");
         
@@ -74,6 +81,9 @@ public class ShoppingCart implements AutoCloseable {
         return true;
     }
 
+    /**
+     * Lists the Inventory and lets the User select Products to add to Cart.
+     */
     public void ViewInventory() {
         int userSelection = -1;
         while (userSelection != 0) {
@@ -119,6 +129,9 @@ public class ShoppingCart implements AutoCloseable {
         }
     }
 
+    /**
+     * Lists the Cart and lets the User return Products to Inventory.
+     */
     public void ViewCart() {
         int userSelection = -1;
         while (userSelection != 0) {
@@ -164,11 +177,19 @@ public class ShoppingCart implements AutoCloseable {
         }
     }
 
+    /**
+     * Resets the Shopping Cart.
+     */
     public void ResetCart() {
+        // Rebuild the Inventory.
         inventory = CreateInventory();
+        // Make a new empty Cart.
         cart = new ProductList();
     }
 
+    /**
+     * Checksout the User by generating a Receipt.
+     */
     public void Checkout() {
         System.out.println("Thanks for shopping with us today!\n");
 
@@ -184,5 +205,12 @@ public class ShoppingCart implements AutoCloseable {
 
     public void close() {
         scanner.close();
+    }
+
+    public static void main(String[] args) {
+        System.out.println("Welcome to the Shopping Cart Simulator");
+        try (ShoppingCart shoppingCart = new ShoppingCart()) {
+            while (shoppingCart.ViewOptions());
+        }
     }
 }
