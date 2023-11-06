@@ -196,7 +196,7 @@ public class ShoppingCart implements AutoCloseable {
         Price total = new Price(0, 0);
         System.out.println("Items Purchased:");
         for (var productEntry : cart.GetProductEntries()) {
-            total = total.Add(productEntry.product.price);
+            total = Price.Add(total, Price.Mul(productEntry.product.price, productEntry.quantity));
             System.out.println(productEntry);
         }
 

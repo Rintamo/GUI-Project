@@ -29,18 +29,42 @@ public class Price {
 
     /**
      * Add two Prices together.
-     * @param other The other Price to add.
+     * @param a A Price to add.
+     * @param b Another Price to add.
      * @return A new instance with the sum of the two Prices.
      */
-    public Price Add(Price other) {
-        // Sum the dollars and cents
-        int newDollars = this.dollars + other.dollars;
-        int newCents = this.cents + other.cents;
+    public static Price Add(Price a, Price b) {
+        // Sum the dollars and cents.
+        int newDollars = Math.addExact(b.dollars, a.dollars);
+        int newCents = Math.addExact(b.cents, a.cents);
         
         // Extract a dollar from cents.
         if (newCents >= 100) {
+            newDollars = Math.addExact(newDollars, 1);
             newCents %= 100;
-            ++newDollars;
+        }
+
+        return new Price(newDollars, newCents);
+    }
+
+    /**
+     * Multiplies a Price by a scalar amount.
+     * @param mul Scalar to multiply by.
+     * @return A new instance of the multiplied price.
+     * @throws InvalidParameterException mul cannot be < 0.
+     */
+    public static Price Mul(Price price, int mul) throws InvalidParameterException {
+        if (mul < 0)
+            throw new InvalidParameterException("mul cannot be < 0");
+
+        // Multiply the dollars and cents.
+        int newDollars = Math.multiplyExact(price.dollars, mul);
+        int newCents = Math.multiplyExact(price.cents, mul);
+        
+        // Extract dollars from cents.
+        if (newCents >= 100) {
+            newDollars = Math.addExact(newDollars, Math.floorDiv(newCents, 100));
+            newCents %= 100;
         }
 
         return new Price(newDollars, newCents);
