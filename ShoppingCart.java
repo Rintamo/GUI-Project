@@ -17,6 +17,10 @@ public class ShoppingCart implements AutoCloseable {
         scanner = new Scanner(System.in);
     }
 
+    public ProductList getInventory(){
+        return inventory;
+    }
+    
     /**
      * Generates the contents of the Inventory.
      * @return A ProductList containing the Inventory.
@@ -206,6 +210,7 @@ public class ShoppingCart implements AutoCloseable {
     public void close() {
         scanner.close();
     }
+
 
     public static void main(String[] args) {
         System.out.println("Welcome to the Shopping Cart Simulator");
